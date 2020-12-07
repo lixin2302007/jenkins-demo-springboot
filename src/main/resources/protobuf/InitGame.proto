@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+message User {
+    string userId = 1;
+
+    string userName = 2;
+
+    bool sex = 3;
+
+    string  openId = 4;
+
+    string  createTime = 5;
+
+    string phoneNum = 6;
+
+    string userImg = 7;
+
+    string introduct = 8;
+}
