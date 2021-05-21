@@ -1,79 +1,465 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.2.5.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+  <groupId>com.elane</groupId>
+  <artifactId>learning</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>learning</name>
+  <description>Demo project for Spring Boot</description>
+
+  <properties>
+    <java.version>1.8</java.version>
+    <org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
+    <bucket4j.version>4.1.1</bucket4j.version>
+    <!-- 按各模块实际目录层次定义相对数据，使所有服务模块输出资源汇聚到相同目录 -->
+    <boot-jar-output>devops</boot-jar-output>
+    <!--
+     有些供应商的sdk jar在pom中是以systemPath方式引入的，maven-jar-plugin组件没有直接参数声明包含指定scope的组件
+     通过使用额外定义 Class-Path 值来追加指定依赖组件列表，按实际情况指定 jar-manifestEntries-classpath 值即可
+     例如(注意前面个点字符及各空格分隔符，lib后面部分是 artifactId-version.jar 格式而不是实际文件名)：. lib/xxx-1.0.0.jar lib/yyy-2.0.0.jar
+     -->
+    <jar-manifestEntries-classpath>. lib/aip-sdk-1.0.0.jar</jar-manifestEntries-classpath>
+  </properties>
+
+  <dependencies>
+
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+    <!--</dependency>-->
+
+    <!-- 排除 Spring-boot-starter 默认的日志配置 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-boot-starter</artifactId>
+      <version>3.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.22</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.ben-manes.caffeine</groupId>
+      <artifactId>caffeine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- protobuf-谷歌 -->
+    <dependency>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-java</artifactId>
+      <version>3.5.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.10</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>4.5.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.arronlong.httpclientutil</groupId>
+      <artifactId>httpclientutil</artifactId>
+      <version>1.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpmime</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka-clients</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.1.0.Final</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling -->
+    <dependency>
+      <groupId>org.jboss.marshalling</groupId>
+      <artifactId>jboss-marshalling</artifactId>
+      <version>2.0.0.CR1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling-serial -->
+    <dependency>
+      <groupId>org.jboss.marshalling</groupId>
+      <artifactId>jboss-marshalling-serial</artifactId>
+      <version>2.0.0.CR1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+    <!--异步日志依赖 -->
+    <dependency>
+      <groupId>com.lmax</groupId>
+      <artifactId>disruptor</artifactId>
+      <version>3.3.4</version>
+    </dependency>
+    <!-- log4j 整合mongodb-->
+    <!--log4j-core 必须-->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-nosql</artifactId>
+      <version>2.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <!--<dependency>-->
+    <!--<groupId>org.springframework</groupId>-->
+    <!--<artifactId>spring-oxm</artifactId>-->
+    <!--<version>5.3.1</version>-->
+    <!--</dependency>-->
+
+    <dependency>
+      <groupId>org.springframework.retry</groupId>
+      <artifactId>spring-retry</artifactId>
+    </dependency>
+
+    <!-- easy poi -->
+    <dependency>
+      <groupId>cn.afterturn</groupId>
+      <artifactId>easypoi-web</artifactId>
+      <version>3.2.0</version>
+    </dependency>
+    <!-- easy excel-->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>easyexcel</artifactId>
+      <version>2.2.6</version>
+    </dependency>
+
+    <!-- 在IntelliJ 2018.1.1之前, 注意在早期的版本中artifactId还需要加jdk版本，比如mapstruct-jdk8；-->
+    <!--<dependency>-->
+    <!--<groupId>org.mapstruct</groupId>-->
+    <!--<artifactId>mapstruct-jdk8</artifactId>-->
+    <!--<version>${org.mapstruct.version}</version>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>org.mapstruct</groupId>-->
+    <!--<artifactId>mapstruct-processor</artifactId>-->
+    <!--<version>${org.mapstruct.version}</version>-->
+    <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!-- 在IntelliJ 2018.1.1之后是可以不添加mapstruct-processor的-->
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>${org.mapstruct.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.vladimir-bukhtoyarov</groupId>
+      <artifactId>bucket4j-core</artifactId>
+      <version>${bucket4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>29.0-jre</version>
+    </dependency>
+
+    <!-- jibx xml to pojo-->
+    <dependency>
+      <groupId>org.jibx</groupId>
+      <artifactId>jibx-run</artifactId>
+      <version>1.3.3</version>
+    </dependency>
+
+    <!-- xstream xml to pojo-->
+    <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
+      <version>1.4.15</version>
+    </dependency>
+
+    <!--   分布式事务   -->
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-starter-jta-atomikos</artifactId>-->
+    <!--</dependency>-->
+
+
+    <!-- 自定义starter-->
+    <dependency>
+      <groupId>com.elane.common</groupId>
+      <artifactId>common-spring-boot-starter</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+    <!-- 阿里云rds api-->
+    <dependency>
+      <groupId>com.aliyun</groupId>
+      <artifactId>rds20140815</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongo-java-driver</artifactId>
+      <version>3.12.5</version>
+    </dependency>
+
+    <!-- 以相对路径方式定义非官方三方依赖组件 -->
+    <dependency>
+      <groupId>com.baidu</groupId>
+      <artifactId>aip-sdk</artifactId>
+      <version>1.0.0</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/aip-java-sdk-4.15.1.jar</systemPath>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>${project.artifactId}</finalName>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <!-- 开启资源变量${property} 赋值-->
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*.xml</include>
+          <include>**/*.yml</include>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <!-- 基于maven-jar-plugin插件实现把依赖jar定义写入输出jar的META-INFO/MANIFEST文件 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <useUniqueVersions>false</useUniqueVersions>
+            </manifest>
+            <manifestEntries>
+              <!--
+              有些非官方三方的诸如sdk jar在pom中是以systemPath方式引入的，maven-jar-plugin组件没有直接参数声明包含指定scope的组件
+              通过使用额外定义 Class-Path 值来追加指定依赖组件列表，在子模块按实际情况指定 jar-manifestEntries-classpath 值即可
+              例如(注意前面个点字符及各空格分隔符)：. lib/xxx-1.0.0.jar lib/yyy-2.0.0.jar
+              详见各子模块中 boot-jar-output 属性定义示例
+              -->
+              <Class-Path>${jar-manifestEntries-classpath}</Class-Path>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <!--
+              各子模块按照实际层级定义各模块对应的属性值，检查所有微服务模块依赖jar文件合并复制到同一个目录
+              详见各子模块中 boot-jar-output 属性定义
+              -->
+              <outputDirectory>${boot-jar-output}/lib</outputDirectory>
+              <excludeTransitive>false</excludeTransitive>
+              <stripVersion>false</stripVersion>
+              <silent>false</silent>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+
+      <plugin>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-    <groupId>com.elane</groupId>
-    <artifactId>learning</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>learning</name>
-    <description>Demo project for Spring Boot</description>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>
+              <!-- 不存在的include引用，相当于排除所有maven依赖jar，没有任何三方jar文件打入输出jar -->
+              <groupId>null</groupId>
+              <artifactId>null</artifactId>
+            </include>
+          </includes>
+          <layout>ZIP</layout>
+          <!--
+           基于maven-jar-plugin输出微服务jar文件进行二次spring boot重新打包文件的输出目录
+           所有微服务构建输出jar文件统一输出到与lib同一个目录，便于共同引用同一个lib目录
+           详见各子模块中boot-jar-output属性定义
+           -->
+          <outputDirectory>${boot-jar-output}</outputDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+            <path>
+              <groupId>org.mapstruct</groupId>
+              <artifactId>mapstruct-processor</artifactId>
+              <version>${org.mapstruct.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
 
-    <dependencies>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- protobuf-谷歌 -->
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>3.5.1</version>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+      <!-- jibx maven plugin 绑定生命周期-->
+      <plugin>
+        <!-- 生成jibx class信息 -->
+        <groupId>org.jibx</groupId>
+        <artifactId>jibx-maven-plugin</artifactId>
+        <version>1.3.3</version>
+        <configuration>
+          <schemaBindingDirectory>src/main/java</schemaBindingDirectory>
+          <includeSchemaBindings>
+            <includeSchemaBindings>**/*binding.xml</includeSchemaBindings>
+          </includeSchemaBindings>
+          <verbose>true</verbose>
+        </configuration>
+        <executions>
+          <execution>
+            <id>jibx-bind</id>
+            <phase>compile</phase>
+            <!-- 把jibx绑定到了comile编译阶段 -->
+            <goals>
+              <goal>bind</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

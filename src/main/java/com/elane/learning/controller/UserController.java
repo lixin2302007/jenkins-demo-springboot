@@ -1,7 +1,8 @@
 package com.elane.learning.controller;
 
+import com.elane.learning.utils.MongoLogUtil;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Cache;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -22,10 +23,11 @@ public class UserController {
         user.setId(id);
         user.setName("王二毛");
         user.setAge(12);
+        MongoLogUtil.printLog(new Gson().toJson(user));
         return user;
     }
 
-    @Caching(put={
+    @Caching(put = {
             @CachePut(value = "USER", key = "#id"),
             @CachePut(value = "USER", key = "#name")
     })
@@ -38,7 +40,7 @@ public class UserController {
         return user;
     }
 
-    @Cacheable(value = "USER", key="#name")
+    @Cacheable(value = "USER", key = "#name")
     @GetMapping("/user2")
     public User getUserByName(String name) {
         log.info("get user:{}", name);

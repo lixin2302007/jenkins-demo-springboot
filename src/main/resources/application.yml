@@ -1,0 +1,37 @@
+# DataSource Config
+spring:
+#  profiles:
+#    active: dev
+  cache:
+    type: caffeine
+  datasource:
+    url: jdbc:mysql://10.10.9.211:3306/test1?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=CTT&characterEncoding=UTF-8
+    username: root
+    password: Pass@123
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+
+  aop:
+    auto: true
+    proxy-target-class: true
+
+  data:
+    mongodb:
+      uri: mongodb://10.10.9.211/study
+      port: 27017
+#设置定时任务
+task:
+  taskName1: #任务名称
+    switch: true #是否开启定时任务
+    cron: "0/5 * * * * ?" #任务表达式
+  taskName2: #任务名称
+    switch: true #是否开启定时任务
+    cron: "0/5 * * * * ?" #任务表达式
+
+common:
+  date-format:
+    enabled: true  # 开启时间格式化功能
+    local-date-pattern: yyyy/MM/dd
+
+
+

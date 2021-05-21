@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>java 后端 websocket</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div id="main" style="width:1200px;height:800px;">
+    welcomet<br/><input id="text" type="text">
+    <button onclick="send()">发送消息</button>
+    <hr/>
+    <button onclick="closewebsocket()">关闭websocket连接</button>
+    <hr/>
+    <div id="message"></div>
+    </div>
+  </body>
+
+
+  <script type="text/javascript">
+    var websocket = null;
+    websocket = new WebSocket("ws://127.0.0.1:8080/api/websocket/100");
+
+    //连接发生错误回调方法
+    websocket.onerror = function () {
+      setMessageInnerHtml("webscoket连接发生错误");
+    }
+
+    //连接成功建立回调方法
+    websocket.onopen = function () {
+      setMessageInnerHtml("webscoket连接成功");
+    }
+
+    //连接关闭回调方法
+    websocket.onclose = function () {
+      setMessageInnerHtml("webscoket连接关闭");
+    }
+
+    //接收消息回调方法
+    websocket.onmessage = function (event) {
+      console.log(event.data);
+      setMessageInnerHtml(event.data);
+    }
+
+    window.onbeforeunload = function () {
+      closeWebSocket();
+    }
+
+    //将消息显示在网页上
+    function setMessageInnerHtml(innerHtml) {
+      document.getElementById("message").innerHTML += innerHtml + '<br/>';
+    }
+
+    //关闭webscoket连接
+    function closeWebSocket() {
+      websocket.close();
+    }
+
+    //发送消息
+    function send() {
+      var message = document.getElementById("text").value;
+      websocket.send('{"msg":"' +message+ '"}');
+      setMessageInnerHtml(message + "&#13;");
+    }
+  </script>
+</html>

@@ -1,0 +1,26 @@
+<service>
+  <head>
+    <tran_id>AQPT.XTJR.CYRXX.ZRRY</tran_id>
+    <tran_seq>随机32位数字</tran_seq>
+    <xtbm>公司编码</xtbm>
+    <xtmc>公司名称</xtmc>
+    <tran_date>当前时间</tran_date>
+    <tran_time>当前时间毫秒</tran_time>
+  </head>
+  <djxx>
+    <sjcryxx>
+      <xm>姓名</xm>
+      <sfzjlx_dm>201</sfzjlx_dm>
+      <sfzjhm>340828XXXXXXXXX</sfzjhm>
+      <lxdh>138888XXXX</lxdh>
+      <dz>江苏省南京市鼓楼区XXX号</dz>
+      <fzjg_dm>发证机关代码</fzjg_dm>
+      <fzjgmc>发证机关名称</fzjgmc>
+      <djlx>xxxxxxxx</djlx>
+      <gbhy>xxxxxxxx</gbhy>
+      <djzclx>xxxxxxxx</djzclx>
+      <zsry_dm></zsry_dm>
+      <hybh></hybh>
+    </sjcryxx>
+  </djxx>
+</service>
