@@ -18,8 +18,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableAsync
+@EnableAspectJAutoProxy(exposeProxy = true)
 @EnableScheduling
 @EnableCaching
 @SpringBootApplication

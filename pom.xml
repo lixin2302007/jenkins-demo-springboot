@@ -331,9 +331,9 @@
         <!-- 开启资源变量${property} 赋值-->
         <filtering>true</filtering>
         <includes>
-          <include>**/*.xml</include>
-          <include>**/*.yml</include>
-          <include>**/*.properties</include>
+          <!--<include>**/*.xml</include>-->
+          <!--<include>**/*.yml</include>-->
+          <!--<include>**/*.properties</include>-->
         </includes>
       </resource>
     </resources>
@@ -379,7 +379,9 @@
               详见各子模块中 boot-jar-output 属性定义
               -->
               <outputDirectory>${boot-jar-output}/lib</outputDirectory>
+              <!-- 表示是否不包含间接依赖的包 -->
               <excludeTransitive>false</excludeTransitive>
+              <!-- 表示复制的jar文件保留版本信息 -->
               <stripVersion>false</stripVersion>
               <silent>false</silent>
             </configuration>

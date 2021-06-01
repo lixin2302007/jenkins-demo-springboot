@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(loginAuthenticationFailureHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authencation/require", "/signIn.html", "/websocket.html", "/api/**").permitAll()
+                .antMatchers("/authencation/require", "/signIn.html", "/websocket.html", "/api/**", "/ws/**", "/app/**", "/test").permitAll()
                 .anyRequest().authenticated().and().csrf().disable();
     }
 

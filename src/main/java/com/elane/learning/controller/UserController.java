@@ -3,6 +3,8 @@ package com.elane.learning.controller;
 import com.elane.learning.utils.MongoLogUtil;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -10,20 +12,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
 @RestController
 @RequestMapping("user")
 public class UserController {
 
+    private static final Logger logger = LogManager.getLogger(UserController.class);
+
     @Cacheable(value = "USER", key = "#id")
     @GetMapping("/user1")
     public User getUser(String id) {
-        log.info("get user:{}", id);
+        logger.info("get user:{}", id);
         User user = new User();
         user.setId(id);
         user.setName("王二毛");
         user.setAge(12);
-        MongoLogUtil.printLog(new Gson().toJson(user));
+//        MongoLogUtil.printLog(new Gson().toJson(user));
+        logger.debug("测试是否初始化信息：{}", () -> new Gson().toJson(user));
         return user;
     }
 
@@ -43,7 +47,7 @@ public class UserController {
     @Cacheable(value = "USER", key = "#name")
     @GetMapping("/user2")
     public User getUserByName(String name) {
-        log.info("get user:{}", name);
+        logger.info("get user:{}", name);
         User user = new User();
         user.setId("1");
         user.setName(name);
