@@ -19,6 +19,11 @@ spring:
     mongodb:
       uri: mongodb://10.10.9.211/study
       port: 27017
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+
 #设置定时任务
 task:
   taskName1: #任务名称

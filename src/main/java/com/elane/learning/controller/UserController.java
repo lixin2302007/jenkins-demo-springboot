@@ -24,7 +24,7 @@ public class UserController {
         logger.info("get user:{}", id);
         User user = new User();
         user.setId(id);
-        user.setName("王二毛");
+        user.setName("王三毛");
         user.setAge(12);
 //        MongoLogUtil.printLog(new Gson().toJson(user));
         logger.debug("测试是否初始化信息：{}", () -> new Gson().toJson(user));
