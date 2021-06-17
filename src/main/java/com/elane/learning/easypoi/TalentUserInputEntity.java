@@ -27,7 +27,8 @@ public class TalentUserInputEntity implements IExcelDataModel, IExcelModel {
   @NotBlank(message = "[姓名]不能为空")
   private String name;
 
-  @Excel(name = "性别*", replace = {"男_0", "女_1"})
+//  @Excel(name = "性别*", replace = {"男_0", "女_1"})
+  @Excel(name = "性别*")
   @Pattern(regexp = "[01]", message = "性别错误")
   private String genderStr;
 

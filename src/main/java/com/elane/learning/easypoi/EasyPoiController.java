@@ -68,6 +68,9 @@ public class EasyPoiController {
       // 标题行设置为0行，默认是0，可以不设置
       params.setTitleRows(0);
       // 开启Excel校验
+      MapImportHandler sexHandler = new MapImportHandler();
+      sexHandler.setNeedHandlerFields(new String[] {"性别*"});
+      params.setDataHandler(sexHandler);
       params.setNeedVerfiy(true);
       params.setVerifyHandler(talentImportVerifyHandler);
       result = ExcelImportUtil.importExcelMore(multipartFile.getInputStream(),
